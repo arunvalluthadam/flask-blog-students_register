@@ -15,6 +15,12 @@ def get_db():   # 2
         g.sqlite_db = connect_db()
     return g.sqlite_db
 
+def create_table():
+    db = sqlite3.connect('register.db')
+    cur = db.cursor()
+    cur.execute("CREATE TABLE if not EXISTS students (id PRIMARY KEY, name TEXT, age INT, place TEXT, city TEXT, state TEXT, phone INT)")
+
+
 @app.route('/delete/<int:entry_id>')
 def delete(entry_id):
     if not session.get('logged_in'):
@@ -59,9 +65,9 @@ def search():
 def login():
     error = None
     if request.method == 'POST':
-        if request.form['username'] != 'admin':
+        if request.form['username'] != 'flaskapp':
             error = 'Invalid username'
-        elif request.form['password'] != 'admin':
+        elif request.form['password'] != 'flaskapp':
             error = 'Invalid password'
         else:
             session['logged_in'] = True
