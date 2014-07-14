@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block body %}
+<h1>Students Details</h1>
+{% if session.logged_in %}
+<form action="{{ url_for('add_entry') }}" method="post">
+    <fieldset>
+        <legend>Students Details</legend>
+        <ol>
+            <li>
+                <p><label>Name</label>
+                <input name="name" type="text" placeholder="First and last name"></p>
+                <br>
+                <p><label>Age</label>
+                <input name="age" type="int" placeholder="20"></p>
+                <br>
+                <p><label>Place</label>
+                <input name="place" type="text" placeholder="tanikkudam"></p>
+                <br>
+                <p><label>City</label>
+                <input name="city" type="text" placeholder="Thrissur"></p>
+                <br>
+                <p><label>State</label>
+                <input name="state" type="text" placeholder="Kerala"></p>
+                <br>
+                <p><label>Phone</label>
+                <input name="phone" type="int" placeholder="974575537"></p>
+            </li>
+        </ol>
+    </fieldset>
+    <input type="submit" value="Insert Data">
+</form>
+{% endif %}
+
+<form action="/search" method="post">
+    <input type=text name=search value="{{ request.form.search }}">
+    <input type=submit value="Search">
+</form>
+
+{% for entry in entries %}
+    <p>{{ entry.name }} | {{ entry.age }} | {{ entry.place }} | {{ entry.city }} | {{ entry.state }} | {{ entry.phone }}
+    {% if session.logged_in %}
+        <a href="{{ url_for('delete', entry_id = entry.id) }}">|Delete|</a>
+    {% endif %}
+    </p>
+{% else %}
+    <li><em>Empty</em>
+{% endfor %}
+
+{% endblock %}
